@@ -7,19 +7,42 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var textField: UITextView!
+    var rateOfSpeech: Float = 0.5
+    var volumeLevel: Float = 1.0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
-
+    @IBAction func clickClear(_ sender: Any) {
+        textField.text = ""
+    }
+    
+    @IBAction func clickAudible(_ sender: Any) {
+        let utterance = AVSpeechUtterance(string: textField.text!)
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
+        utterance.rate = rateOfSpeech
+        utterance.volume = volumeLevel
+        
+        let synthesizer = AVSpeechSynthesizer()
+        synthesizer.speak(utterance)
+    }
+    
+    @IBAction func rateOfSpeechSlider(_ sender: UISlider) {
+        rateOfSpeech = sender.value
+    }
+    
+    @IBAction func volumeLevelSlider(_ sender: UISlider) {
+        volumeLevel = sender.value
+    }
 }
 
